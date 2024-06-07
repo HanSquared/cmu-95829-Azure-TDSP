@@ -1,0 +1,201 @@
+---
+title: "Exploration data analysis"
+output:
+  pdf_document:
+    toc: true
+    toc_depth: '3'
+  html_document:
+    toc: true
+    toc_depth: 3
+    theme: paper
+    highlight: tango
+    warnings: false
+date: "2024-06-05"
+---
+
+```{r setup, include=FALSE}
+#knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, comment = NA)
+```
+
+```{r call libraries, include=FALSE}
+#Call libraries
+
+library(tidyverse)
+library (MASS)
+library(ggplot2)
+library(readxl)
+library(gridExtra)
+library(GGally)
+library(dplyr)
+```
+
+## Read file
+
+```{r read, echo=TRUE}
+
+Churn_file <- read.csv("~/Carnegie Mellon/24_Software design for data scientist/Final_Project/cmu-95829-Azure-TDSP/Sample_Data/Raw/WA_Fn-UseC_-Telco-Customer-Churn.csv", row.names=1, stringsAsFactors=TRUE)
+
+
+```
+
+## General summary of the data
+We have 21 columns and attributes with 7,043 records. The median of monthly charges by customer is $70.35 meanwhile the Total charges $1,397.The average tenure is 32 months while 1,869 customers have left the company this quarter.
+```{r summary}
+
+#No col and rows
+nrow(Churn_file)
+ncol(Churn_file)
+
+# Top 5 data rows
+head (Churn_file, 5)
+
+# Summary of key attributes 
+summary(Churn_file[,c(5,18,19,20)])
+
+str(Churn_file)
+
+```
+We have monthly charges, total charges and tenure as numerical values. The others are factors or categorical values.
+## Data quality and preparation
+The database contains 11 missing values in "total charges" column.
+
+```{r data quality}
+# To validate if there are missing values per column
+missing_values <- colSums(is.na(Churn_file))
+print(missing_values)
+```
+We will remove those 11 rows.
+```{r remove rows}
+# To remove rows
+Churn_file <- na.omit(Churn_file)
+nrow(Churn_file)
+```
+Now, we have 7,032 records.
+
+We also need to convert senior citizen as factor
+```{r senior citizen}
+Churn_file <- Churn_file %>% 
+  mutate(SeniorCitizen=as.factor(SeniorCitizen))
+
+```
+
+Now, we change the churn attribute in a numeric value in a new column
+
+```{r churn to numeric}
+# Change the target variable in a numeric value
+Churn_file$churn_numeric <- ifelse(Churn_file$Churn == "Yes", 1, 0)
+```
+
+Checking outliers for numeric values: tenure, total and monthly charges
+
+```{r outliers}
+# Validate if there are outliers 
+boxplot(Churn_file$MonthlyCharges)
+boxplot(Churn_file$TotalCharges)
+boxplot(Churn_file$tenure)
+```
+
+In this dataset we do not have outliers.
+
+## Exploration data analysis
+In the histogram, We see tenure is left skewed with churn customers, this means that they tend to leave the company within 12 months. On the other hand, the bar graph shows the average monthly charges in Churn customers was higher than non-churn customers.
+
+```{r quantitative}
+light_red <- rgb(255, 192, 192, maxColorValue = 255)
+
+#Histograms by tenure
+ggplot(Churn_file, aes(x = tenure, fill = Churn)) +
+  geom_histogram(binwidth = 12, color = "black", position = "dodge") +
+  facet_wrap(~ Churn) +
+  scale_fill_manual(values = c("Yes" = light_red, "No" = "gray")) +
+  labs(title = "Histogram of Tenure by Churn Status", x = "Tenure", y = "Frequency") +
+  theme_minimal()
+
+#Bar graphs of monthly charges
+avg_churn <- Churn_file %>%
+  group_by(Churn) %>%
+  summarise(AverageMonthlyCharges = mean(MonthlyCharges, na.rm = TRUE))
+
+ggplot(avg_churn, aes(x = Churn, y = AverageMonthlyCharges, fill = Churn)) +
+  geom_bar(stat = "identity", color = "black") +
+  scale_fill_manual(values = c("Yes" = light_red, "No" = "gray")) +
+  labs(title = "Average Monthly Charges by Churn Status", x = "Churn", y = "Average Monthly Charges") +
+  theme_minimal()
+
+```
+
+Gender by churn is not a relevant attribute considering the proportion of churn is similar among male and females.
+
+```{r gender}
+churn_gender_table <- table(Churn_file$Churn, Churn_file$gender)
+
+# gender bar plot
+barplot(churn_gender_table, legend = rownames(churn_gender_table), col = c("gray", light_red), 
+        main = "Churn by Gender", xlab = "Gender", ylab = "Count")
+```
+
+
+We can see the majority of churn is in people below 65 yeards old. However, in those senior citizen customers (above 65yrs) the churn rate is higher.
+```{r citizen}
+churn_sc_table <- table(Churn_file$Churn, Churn_file$SeniorCitizen)
+
+# Seniorcitizen graph bar
+barplot(churn_sc_table, beside = TRUE, legend = TRUE,
+        col = c("gray", light_red), 
+        main = "Churn by Senior Citizen Status", 
+        xlab = "Customers above 65 years old", ylab = "Count",)
+```
+
+Churn is more common in customers that pay in a monthly basis. Having a long term contract (>1 year) with customers could lead to more retention.
+
+```{r contract}
+churn_contract_table <- table(Churn_file$Churn, Churn_file$Contract)
+
+# Contract bar plot
+barplot(churn_contract_table, legend = rownames(churn_contract_table), col = c("gray", light_red), 
+        main = "Churn by Contract type", xlab = "Contract type", ylab = "Count")
+```
+
+
+Customers with fiber optic have more chances to churn.
+```{r internetservice}
+churn_internet_table <- table(Churn_file$Churn, Churn_file$InternetService)
+
+# Internet service bar plot
+barplot(churn_internet_table, legend = rownames(churn_internet_table), col = c("gray", light_red), 
+        main = "Churn by internet service", xlab = "Internet service", ylab = "Count")
+```
+
+
+Customers that pay via transfer or credit/debit card have less churn rate.
+```{r payment}
+churn_pay_table <- table(Churn_file$Churn, Churn_file$PaymentMethod)
+
+# Payment method bar plot
+barplot(churn_pay_table, legend = rownames(churn_pay_table), col = c("gray", light_red), 
+        main = "Churn by payment method", xlab = "Customers pay by", ylab = "Count")
+```
+
+
+Additionally, we can see customers with dependents and partners are less likely to churn.
+```{r partner and dependets}
+partner_plot <- Churn_file %>% ggplot(aes(x=Partner, fill=fct_rev(Churn_file$Churn))) +  geom_bar(alpha=0.8) + labs(title="Churn by partner", y="Customers") + scale_fill_manual(values = c(light_red, "gray"))+guides(fill = FALSE)
+dependents_plot <- Churn_file %>% ggplot(aes(x=Dependents, fill=fct_rev(Churn_file$Churn)))+  geom_bar(alpha=0.8) + labs(title="Churn by dependents", y="Customers")+ scale_fill_manual(values = c(light_red, "gray"))+ guides(fill = FALSE)
+
+grid.arrange(partner_plot, dependents_plot, ncol=2)
+```
+
+At the beginning we see that churn customers have higher monthly charges and less tenure. Now, let's graph the correlation of total charges and tenure. 
+```{r correlation}
+Churn_file %>% 
+  dplyr::select(tenure, TotalCharges, Churn) %>% 
+ggpairs(aes(fill = Churn), 
+        diag = list(continuous = wrap("densityDiag", alpha = 0.8), 
+                    discrete = wrap("barDiag", alpha = 0.8, color = "gray")),   
+        lower = list(continuous = wrap("smooth", alpha = 0.8, color = light_red),
+                      discrete = wrap("points"))) +
+  scale_fill_manual(values = c("gray", light_red))
+```
+
+We see a strong positive linear relationship between the tenure and total charges with 0.8. The boxplots show a significant difference in the median of tenure by churn and active customers.
