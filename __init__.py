@@ -76,22 +76,10 @@ def predict():
                 data["OnlineSecurity"], data["OnlineBackup"],data["tenure"], data["DeviceProtection"], \
                 data["TechSupport"], data["StreamingTV"],data["StreamingMovies"], data["Contract"], \
                 data["PaperlessBilling"], data["PaymentMethod"],data["MonthlyCharges"],data["TotalCharges"]])
-
-   
-    data_categoric = np.reshape(data_categoric, (1, -1))
-    data_categoric = ohe.transform(data_categoric).toarray()
- 
-    data_age = np.array([data["age"]])
-    data_age = np.reshape(data_age, (1, -1))
-    data_age = np.array(age_std_scale.transform(data_age))
-
-    data_balance = np.array([data["balance"]])
-    data_balance= np.reshape(data_balance, (1, -1))
-    data_balance = np.array(balance_std_scale.transform(data_balance))
-
-    data_final = np.column_stack((data_age, data_balance, data_categoric))
-    data_final = pd.DataFrame(data_final, dtype=object)
+    
+    data_point.TotalCharges = pd.to_numeric(data_point.TotalCharges, errors='coerce')
+    data_final = pd.get_dummies(data_point, drop_first=True)
 
     #make predicon using model
-    prediction = rfc.predict(data_final)
+    prediction = model.predict(data_final)
     return Response(json.dumps(prediction[0]))
