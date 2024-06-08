@@ -67,10 +67,17 @@ scaler = joblib.load('scaler.pkl')
 
 #====
 @app.route('/api', methods=['GET', 'POST'])
+
 def predict():
     #get data from request
     data = request.get_json(force=True)
-    data_categoric = np.array([data["customerID"], data["marital"], data["education"], data["default"], data["housing"], data["loan"]])
+    data_point = np.array([data["gender"], data["SeniorcITIZEN"], data["Partner"], data["Dependents"], \
+                data["tenure"], data["PhoneService"], data["MultipleLines"], data["InternetService"], \
+                data["OnlineSecurity"], data["OnlineBackup"],data["tenure"], data["DeviceProtection"], \
+                data["TechSupport"], data["StreamingTV"],data["StreamingMovies"], data["Contract"], \
+                data["PaperlessBilling"], data["PaymentMethod"],data["MonthlyCharges"],data["TotalCharges"]])
+
+   
     data_categoric = np.reshape(data_categoric, (1, -1))
     data_categoric = ohe.transform(data_categoric).toarray()
  
