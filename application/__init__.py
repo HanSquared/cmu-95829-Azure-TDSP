@@ -18,21 +18,21 @@ df = pd.read_csv(dataLoc,sep = ',')
 df2 = df.drop(['customerID'], axis=1)
 
 # Drop missing values if any
-df2 = df2.dropna()
+df3 = df2.dropna()
 
 # Converting Total Charges to a numerical data type.
-df2.TotalCharges = pd.to_numeric(df2.TotalCharges, errors='coerce')
+df3.TotalCharges = pd.to_numeric(df3.TotalCharges, errors='coerce')
 
 #Convertin the churn results into a binary numeric variable
-df2['Churn'].replace(to_replace='Yes', value=1, inplace=True)
-df2['Churn'].replace(to_replace='No',  value=0, inplace=True)
+df3['Churn'].replace(to_replace='Yes', value=1, inplace=True)
+df3['Churn'].replace(to_replace='No',  value=0, inplace=True)
 
 # Convert categorical columns to numerical using one-hot encoding
-df3 = pd.get_dummies(df2, drop_first=True)
+df4 = pd.get_dummies(df3, drop_first=True)
 
 # Split the data into features and target variable
-X = df3.drop('Churn', axis=1)
-Y = df3['Churn']
+X = df4.drop('Churn', axis=1)
+Y = df4['Churn']
 
 # Split the data into training and testing sets
 X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=100)
