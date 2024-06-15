@@ -7,7 +7,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 
 #load data
-dataLoc ="./Sample_Data/Raw/WA_Fn-UseC_-Telco-Customer-Churn.csv"
+dataLoc ="./../Sample_Data/Raw/WA_Fn-UseC_-Telco-Customer-Churn.csv"
 df = pd.read_csv(dataLoc,sep = ',')
 
 # Drop any columns not needed for prediction
@@ -53,19 +53,17 @@ joblib.dump(scaler, 'scaler.pkl')
 
 #create flask instance
 app = Flask(__name__)
-
-#create api
 from flask import Flask, request, jsonify, render_template
 import joblib
 import numpy as np
-
-app = Flask(__name__)
-
 # Load the trained model and scaler
 model = joblib.load('churn_model.pkl')
 scaler = joblib.load('scaler.pkl')
 
-#====
+
+#==========================
+#create api
+
 @app.route('/api', methods=['GET', 'POST'])
 
 def predict():
