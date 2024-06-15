@@ -5,9 +5,15 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
+import matplotlib.ticker as mtick # For specifying the axes tick format 
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, classification_report
+import joblib
+import os
 
 #load data
-dataLoc ="../Sample_Data/Raw/WA_Fn-UseC_-Telco-Customer-Churn.csv"
+dataLoc ="./Sample_Data/Raw/WA_Fn-UseC_-Telco-Customer-Churn.csv"
 df = pd.read_csv(dataLoc,sep = ',')
 
 # Drop any columns not needed for prediction
@@ -55,7 +61,6 @@ joblib.dump(scaler, 'scaler.pkl')
 app = Flask(__name__)
 from flask import Flask, request, jsonify, render_template
 import joblib
-import numpy as np
 # Load the trained model and scaler
 model = joblib.load('churn_model.pkl')
 scaler = joblib.load('scaler.pkl')
