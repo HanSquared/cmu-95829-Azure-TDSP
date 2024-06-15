@@ -7,7 +7,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 
 #load data
-dataLoc ="./../Sample_Data/Raw/WA_Fn-UseC_-Telco-Customer-Churn.csv"
+dataLoc ="../Sample_Data/Raw/WA_Fn-UseC_-Telco-Customer-Churn.csv"
 df = pd.read_csv(dataLoc,sep = ',')
 
 # Drop any columns not needed for prediction
