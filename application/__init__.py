@@ -72,7 +72,7 @@ scaler = joblib.load('scaler.pkl')
 def predict():
     #get data from request
     data = request.get_json(force=True)
-    data_point = np.array([data["gender"], data["SeniorcITIZEN"], data["Partner"], data["Dependents"], \
+    data_point = np.array([data["gender"], data["SeniorCitizen"], data["Partner"], data["Dependents"], \
                 data["tenure"], data["PhoneService"], data["MultipleLines"], data["InternetService"], \
                 data["OnlineSecurity"], data["OnlineBackup"],data["tenure"], data["DeviceProtection"], \
                 data["TechSupport"], data["StreamingTV"],data["StreamingMovies"], data["Contract"], \
