@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Customer churn predictor</title>
+ </head>
+<body>
+        <h2>Welcome to Churn Predictor App</h2>
+        <h3>Enter customer info</h3>
+        <form action = "{{ url_for('churnclassify') }}" method="POST">
+            <table border="1" style="border-color:gray; border-collapse:collapse;" cellpadding="5" cellspacing="5">
+                <tr>
+                    <td><h4>Tenure</h4> 
+                    <input type="number" name="tenure" min="0" max="100" > </td>               
+                    <td><h4>Contract</h4>
+                        <select name = "contract">
+                            <option value="monthly">Month-to-month</option>
+                            <option value="oneyear ">One-year</option>
+                            <option value="twoyear">Two-year</option>
+                        </select>
+                    </td>
+                    <td><h4>Gender</h4>
+                        <select name = "gender">
+                            <option value="female">Female</option>
+                            <option value="male">Male</option>
+                        </select>
+                    </td>
+                    <td><h4>Partner</h4>
+                        <select name = "partner"> 
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
+                          </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><h4>Dependents</h4>
+                        <select name = "dependents">
+                            <option value="yes">Yes</option> 
+                            <option value="no">No</option>
+                        </select>
+                    </td>
+                    <td><h4>Monthly charges</h4>
+                        <input type="number" name="monthly-charges" min="0" max="100000"> </td>   
+                    <td><h4>Total charges</h4> 
+                    <input type="number" name="total-charges" min="0" max="1000000" > </td>               
+                    <td><h4>Phone service</h4>
+                        <select name = "phone-service">
+                            <option value="yes">Yes</option> 
+                            <option value="no">No</option>
+                        </select>
+                    </td>
+                </tr>
+                    <td><h4>Multiple lines</h4>
+                        <select name = "multiple-lines">
+                            <option value="yes">Yes</option> 
+                            <option value="no">No</option>
+                        </select>
+                    </td>            
+                 <td><h4>Internet service</h4>
+                        <select name = "internet-service">
+                            <option value="dsl">DSL</option>
+                            <option value="fiberoptic ">Fiber-optic</option>
+                            <option value="no">No</option>
+                        </select>
+                    </td>            
+                 <td><h4>Online security</h4>
+                        <select name = "online-security">
+                            <option value="no">No</option>
+                            <option value="nointernetservice ">No-internet-service</option>
+                            <option value="yes">Yes</option>
+                        </select>
+                    </td>            
+                </tr>
+                 <td><h4>Online backup</h4>
+                        <select name = "online-backup">
+                            <option value="no">No</option>
+                            <option value="nointernetservice ">No-internet-service</option>
+                            <option value="yes">Yes</option>
+                        </select>
+                    </td>         
+                  <td><h4>Device protection</h4>
+                        <select name = "device-protection">
+                            <option value="no">No</option>
+                            <option value="nointernetservice ">No-internet-service</option>
+                            <option value="yes">Yes</option>
+                        </select>
+                    </td>          
+                   <td><h4>Tech support</h4>
+                        <select name = "tech-support">
+                            <option value="no">No</option>
+                            <option value="nointernetservice ">No-internet-service</option>
+                            <option value="yes">Yes</option>
+                        </select>
+                    </td>            
+                </tr>
+                   <td><h4>StreamingTV</h4>
+                        <select name = "streaming-tv">
+                            <option value="no">No</option>
+                            <option value="nointernetservice ">No-internet-service</option>
+                            <option value="yes">Yes</option>
+                        </select>
+                    </td>            
+                   <td><h4>StreamingMovies</h4>
+                        <select name = "streaming-movies">
+                            <option value="no">No</option>
+                            <option value="nointernetservice ">No-internet-service</option>
+                            <option value="yes">Yes</option>
+                        </select>
+                    </td>            
+                   <td><h4>Paperless Billing</h4>
+                        <select name = "PaperlessBilling">
+                            <option value="no">No</option>
+                            <option value="yes">Yes</option>
+                        </select>
+                    </td>     
+                </tr>
+                   <td><h4>Payment Method</h4>
+                        <select name = "PaymentMethod">
+                            <option value="banktransfer">Bank-transfer</option>
+                            <option value="creditcard ">Credit-card</option>
+                            <option value="electroniccheck">Electronic-check</option>
+                            <option value="mailedcheck">Mailed-check</option>
+                        </select>
+                    </td>            
+                    <td><h4>Senior Citizen</h4>
+                        <select name = "SeniorCitizen">
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                        </select>
+                    </td>
+            </tr>
+            </table>
+            <!-- <input type="hidden" id="forminput" name="forminput"  >    -->        
+            <p><input type="submit" value="Will the customer churn?"></p>
+             {% if (results) %} 
+             <h3> Customer prediction: {{ results }}  </h3>
+             {% endif %} 
+        </form>
+</body>
+</html>
