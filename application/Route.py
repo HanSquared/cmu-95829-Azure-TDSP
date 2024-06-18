@@ -45,7 +45,7 @@ def churnclassify():
 
     #url for churn classification api
     #url = "http://localhost:5000/api"
-    url = "https://cmu95829-churn-predictor.herokuapp.com/api"
+    url = "https://cmu95829-churn-predictor-17c35f3572b4.herokuapp.com/api"
 
  
     #post data to url
