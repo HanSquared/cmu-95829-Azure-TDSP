@@ -80,7 +80,7 @@ def predict():
     
     data_point.TotalCharges = pd.to_numeric(data_point.TotalCharges, errors='coerce')
     data_final = pd.get_dummies(data_point, drop_first=True)
-
+    data_scale = scaler.transform(data_final)
     #make predicon using model
-    prediction = model.predict(data_final)
+    prediction = model.predict(data_scale)
     return Response(json.dumps(prediction[0]))
