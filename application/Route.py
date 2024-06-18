@@ -43,9 +43,9 @@ def churnclassify():
         "StreamingMovies": StreamingMovies, "Contract": Contract, "PaperlessBilling": PaperlessBilling, \
         "PaymentMethod": PaymentMethod, "MonthlyCharges": MonthlyCharges, "TotalCharges": TotalCharges})
 
-    #url for car classification api
+    #url for churn classification api
     #url = "http://localhost:5000/api"
-    url = "https://dsm-car-model.herokuapp.com/api"
+    url = "http://127.0.0.1:5000"
 
  
     #post data to url
