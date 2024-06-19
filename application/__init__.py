@@ -14,7 +14,7 @@ import os
 
 #load data
 #dataLoc ="./Sample_Data/Raw/WA_Fn-UseC_-Telco-Customer-Churn.csv"
-dataLoc ="./Sample_Data/Processed/processed_dataset5.csv"
+dataLoc ="./churnData/processed_dataset5.csv"
 df4 = pd.read_csv(dataLoc,sep = ',')
 
 # Split the data into features and target variable
