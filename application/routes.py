@@ -57,7 +57,7 @@ def churnclassify():
     results =  requests.post(url, input_data)
 
     #send input values and prediction result to index.html for display
-    return render_template("index.html", gender = gender, SeniorCitizen = SeniorCitizen,Partner = Partner, Dependents = Dependents, tenure = tenure, \
+    return render_template("index.html", gender = gender, SeniorCitizen = SeniorCitizen, Partner = Partner, Dependents = Dependents, tenure = tenure, \
         PhoneService = PhoneService, MultipleLines = MultipleLines, InternetService = InternetService, OnlineSecurity = OnlineSecurity, \
         OnlineBackup = OnlineBackup, DeviceProtection = DeviceProtection, TechSupport = TechSupport, \
         StreamingTV = StreamingTV, StreamingMovies = StreamingMovies, Contract = Contract, \
