@@ -6,6 +6,10 @@ import requests
 import numpy
 import pandas as pd
 
+@app.route('/')
+def home():
+    return render_template('index.html')
+
 @app.route("/")
 @app.route("/index")
 def index():
@@ -13,7 +17,7 @@ def index():
 
 @app.route("/churnclassify",methods =['GET', 'POST'])
 def churnclassify():
-    
+
     #extract form inputs
     gender = request.form.get("gender")
     SeniorCitizen = request.form.get("SeniorCitizen")
