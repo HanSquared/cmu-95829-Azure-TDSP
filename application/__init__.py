@@ -1,3 +1,4 @@
+"""
 from flask import Flask, request, Response, json
 from flask import jsonify, render_template
 import numpy as np
@@ -17,6 +18,7 @@ import os
 dataLoc ="./Sample_Data/Processed/processed_dataset5.csv"
 df4 = pd.read_csv(dataLoc,sep = ',')
 """
+"""
 df = pd.read_csv(dataLoc,sep = ',')
 
 # Drop any columns not needed for prediction
@@ -34,6 +36,7 @@ df3['Churn'].replace(to_replace='No', value=0, inplace=True)
 
 # Convert categorical columns to numerical using one-hot encoding
 df4 = pd.get_dummies(df3, drop_first=True)
+"""
 """
 # Split the data into features and target variable
 X = df4.drop('Churn', axis=1)
@@ -81,7 +84,6 @@ scaler = joblib.load('scaler.pkl')
 #create api
 
 @app.route('/api', methods=['GET', 'POST'])
-
 def predict():
     #get data from request
     data = request.get_json(force=True)
@@ -97,3 +99,13 @@ def predict():
     #make predicon using model
     prediction = model.predict(data_scale)
     return Response(json.dumps(prediction[0]))
+
+"""
+from flask import Flask
+
+app = Flask(__name__)
+
+from application import routes
+
+if __name__ == '__main__':
+    app.run()
