@@ -6,10 +6,6 @@ import requests
 import numpy
 import pandas as pd
 
-@app.route('/')
-def home():
-    return render_template('index.html')
-
 @app.route("/")
 @app.route("/index")
 def index():
