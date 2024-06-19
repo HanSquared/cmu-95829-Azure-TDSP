@@ -1,4 +1,5 @@
 from flask import Flask, request, Response, json
+from flask import jsonify, render_template
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
@@ -64,9 +65,9 @@ joblib.dump(rf_classifier, 'churn_model.pkl')
 joblib.dump(scaler, 'scaler.pkl')
 
 #create flask instance
+from flask import Flask
 app = Flask(__name__)
-from flask import Flask, request, jsonify, render_template
-import joblib
+
 # Load the trained model and scaler
 model = joblib.load('churn_model.pkl')
 scaler = joblib.load('scaler.pkl')
