@@ -14,8 +14,8 @@ import os
 
 #load data
 #dataLoc ="./Sample_Data/Raw/WA_Fn-UseC_-Telco-Customer-Churn.csv"
-dataLoc ="./Sample_Data/Processed/processed_dataset.csv"
-df3 = pd.read_csv(dataLoc,sep = ',')
+dataLoc ="./Sample_Data/Processed/processed_dataset5.csv"
+df4 = pd.read_csv(dataLoc,sep = ',')
 """
 df = pd.read_csv(dataLoc,sep = ',')
 
@@ -24,7 +24,7 @@ df2 = df.drop(['customerID'], axis=1)
 
 # Drop missing values if any
 df3 = df2.dropna()
-"""
+
 # Converting Total Charges to a numerical data type.
 df3.TotalCharges = pd.to_numeric(df3.TotalCharges, errors='coerce')
 
@@ -34,7 +34,7 @@ df3['Churn'].replace(to_replace='No', value=0, inplace=True)
 
 # Convert categorical columns to numerical using one-hot encoding
 df4 = pd.get_dummies(df3, drop_first=True)
-
+"""
 # Split the data into features and target variable
 X = df4.drop('Churn', axis=1)
 Y = df4['Churn']
