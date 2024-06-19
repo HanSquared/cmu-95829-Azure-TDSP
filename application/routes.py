@@ -45,8 +45,8 @@ def churnclassify():
         "PaymentMethod": PaymentMethod, "MonthlyCharges": MonthlyCharges, "TotalCharges": TotalCharges})
 
     #url for churn classification api
-    url = "http://localhost:5000/api"
-    #url = "https://churn-predict-265aa0298bfd.herokuapp.com/api"
+    #url = "http://localhost:5000/api"
+    url = "https://cmu95829-churn-predictor-17c35f3572b4.herokuapp.com/api"
 
  
     #post data to url
