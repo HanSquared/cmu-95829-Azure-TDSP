@@ -13,7 +13,10 @@ import joblib
 import os
 
 #load data
-dataLoc ="./Sample_Data/Raw/WA_Fn-UseC_-Telco-Customer-Churn.csv"
+#dataLoc ="./Sample_Data/Raw/WA_Fn-UseC_-Telco-Customer-Churn.csv"
+dataLoc ="./Sample_Data/Processed/processed_dataset.csv"
+df3 = pd.read_csv(dataLoc,sep = ',')
+"""
 df = pd.read_csv(dataLoc,sep = ',')
 
 # Drop any columns not needed for prediction
@@ -21,13 +24,13 @@ df2 = df.drop(['customerID'], axis=1)
 
 # Drop missing values if any
 df3 = df2.dropna()
-
+"""
 # Converting Total Charges to a numerical data type.
 df3.TotalCharges = pd.to_numeric(df3.TotalCharges, errors='coerce')
 
 #Convertin the churn results into a binary numeric variable
 df3['Churn'].replace(to_replace='Yes', value=1, inplace=True)
-df3['Churn'].replace(to_replace='No',  value=0, inplace=True)
+df3['Churn'].replace(to_replace='No', value=0, inplace=True)
 
 # Convert categorical columns to numerical using one-hot encoding
 df4 = pd.get_dummies(df3, drop_first=True)
@@ -68,6 +71,7 @@ joblib.dump(scaler, 'scaler.pkl')
 from flask import Flask
 app = Flask(__name__)
 
+
 # Load the trained model and scaler
 model = joblib.load('churn_model.pkl')
 scaler = joblib.load('scaler.pkl')
@@ -83,7 +87,7 @@ def predict():
     data = request.get_json(force=True)
     data_point = np.array([data["gender"], data["SeniorCitizen"], data["Partner"], data["Dependents"], \
                 data["tenure"], data["PhoneService"], data["MultipleLines"], data["InternetService"], \
-                data["OnlineSecurity"], data["OnlineBackup"],data["tenure"], data["DeviceProtection"], \
+                data["OnlineSecurity"], data["OnlineBackup"], data["tenure"], data["DeviceProtection"], \
                 data["TechSupport"], data["StreamingTV"],data["StreamingMovies"], data["Contract"], \
                 data["PaperlessBilling"], data["PaymentMethod"],data["MonthlyCharges"],data["TotalCharges"]])
     
