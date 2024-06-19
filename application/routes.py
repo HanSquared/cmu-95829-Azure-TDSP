@@ -9,7 +9,7 @@ import pandas as pd
 @app.route("/")
 @app.route("/index")
 def index():
-    return render_template(index.html)
+    return render_template("index.html")
 
 @app.route("/churnclassify",methods =['GET', 'POST'])
 def churnclassify():
