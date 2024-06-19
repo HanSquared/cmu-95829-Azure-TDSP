@@ -59,7 +59,7 @@ def churnclassify():
     #send input values and prediction result to index.html for display
     return render_template("index.html", gender = gender, SeniorCitizen = SeniorCitizen,Partner = Partner, Dependents = Dependents, tenure = tenure, \
         PhoneService = PhoneService, MultipleLines = MultipleLines, InternetService = InternetService, OnlineSecurity = OnlineSecurity, \
-        OnlineSecurity = OnlineSecurity, OnlineBackup = OnlineBackup, DeviceProtection = DeviceProtection, TechSupport = TechSupport, \
+        OnlineBackup = OnlineBackup, DeviceProtection = DeviceProtection, TechSupport = TechSupport, \
         StreamingTV = StreamingTV, StreamingMovies = StreamingMovies, Contract = Contract, \
         PaperlessBilling = PaperlessBilling, PaymentMethod = PaymentMethod, MonthlyCharges = MonthlyCharges, TotalCharges = TotalCharges, \
         results = results.content.decode('UTF-8'))
