@@ -1,4 +1,3 @@
-"""
 from flask import Flask, request, Response, json
 from flask import jsonify, render_template
 import numpy as np
@@ -17,27 +16,7 @@ import os
 #dataLoc ="./Sample_Data/Raw/WA_Fn-UseC_-Telco-Customer-Churn.csv"
 dataLoc ="./Sample_Data/Processed/processed_dataset5.csv"
 df4 = pd.read_csv(dataLoc,sep = ',')
-"""
-"""
-df = pd.read_csv(dataLoc,sep = ',')
 
-# Drop any columns not needed for prediction
-df2 = df.drop(['customerID'], axis=1)
-
-# Drop missing values if any
-df3 = df2.dropna()
-
-# Converting Total Charges to a numerical data type.
-df3.TotalCharges = pd.to_numeric(df3.TotalCharges, errors='coerce')
-
-#Convertin the churn results into a binary numeric variable
-df3['Churn'].replace(to_replace='Yes', value=1, inplace=True)
-df3['Churn'].replace(to_replace='No', value=0, inplace=True)
-
-# Convert categorical columns to numerical using one-hot encoding
-df4 = pd.get_dummies(df3, drop_first=True)
-"""
-"""
 # Split the data into features and target variable
 X = df4.drop('Churn', axis=1)
 Y = df4['Churn']
@@ -63,8 +42,8 @@ rf_classifier.fit(X_train, Y_train)
 Y_pred = rf_classifier.predict(X_test)
 accuracy = accuracy_score(Y_test, Y_pred)
 
-print(f'Accuracy: {accuracy_score(Y_test, Y_pred)}')
-print(classification_report(Y_test, Y_pred))
+#print(f'Accuracy: {accuracy_score(Y_test, Y_pred)}')
+#print(classification_report(Y_test, Y_pred))
 
 # Save the model and scaler to disk
 joblib.dump(rf_classifier, 'churn_model.pkl')
@@ -87,25 +66,14 @@ scaler = joblib.load('scaler.pkl')
 def predict():
     #get data from request
     data = request.get_json(force=True)
-    data_point = np.array([data["gender"], data["SeniorCitizen"], data["Partner"], data["Dependents"], \
-                data["tenure"], data["PhoneService"], data["MultipleLines"], data["InternetService"], \
-                data["OnlineSecurity"], data["OnlineBackup"], data["tenure"], data["DeviceProtection"], \
-                data["TechSupport"], data["StreamingTV"],data["StreamingMovies"], data["Contract"], \
-                data["PaperlessBilling"], data["PaymentMethod"],data["MonthlyCharges"],data["TotalCharges"]])
-    
+    data_point = np.array([data["gender"], data["SeniorCitizen"], data["Partner"], \
+        data["Dependents"], data["tenure"], data["PhoneService"], data["MultipleLines"], \
+        data["InternetService"], data["OnlineSecurity"], data["OnlineBackup"], data["tenure"], \
+        data["DeviceProtection"], data["TechSupport"], data["StreamingTV"],data["StreamingMovies"], \
+        data["Contract"], data["PaperlessBilling"], data["PaymentMethod"],data["MonthlyCharges"],data["TotalCharges"]])
     data_point.TotalCharges = pd.to_numeric(data_point.TotalCharges, errors='coerce')
     data_final = pd.get_dummies(data_point, drop_first=True)
     data_scale = scaler.transform(data_final)
     #make predicon using model
     prediction = model.predict(data_scale)
     return Response(json.dumps(prediction[0]))
-
-"""
-from flask import Flask
-
-app = Flask(__name__)
-
-from application import routes
-
-if __name__ == '__main__':
-    app.run()
