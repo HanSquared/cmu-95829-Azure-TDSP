@@ -34,10 +34,8 @@ def churnclassify():
     PaymentMethod = request.form.get("PaymentMethod")
     MonthlyCharges = request.form.get("MonthlyCharges")
     TotalCharges = request.form.get("TotalCharges")
-"""
-
-    #extract data from json
- """   
+   
+   #extract data from json 
     input_data = json.dumps({"gender":gender, "SeniorCitizen":SeniorCitizen, "Partner": Partner, "Dependents": Dependents, "tenure": tenure, \
         "PhoneService": PhoneService, "MultipleLines": MultipleLines, "InternetService": InternetService, \
         "OnlineSecurity": OnlineSecurity, "OnlineBackup": OnlineBackup, \
@@ -45,13 +43,11 @@ def churnclassify():
         "StreamingMovies": StreamingMovies, "Contract": Contract, "PaperlessBilling": PaperlessBilling, \
         "PaymentMethod": PaymentMethod, "MonthlyCharges": MonthlyCharges, "TotalCharges": TotalCharges})
 """
- input_data = json.dumps({"SeniorCitizen":SeniorCitizen,"tenure": tenure, "gender_Male":gender_Male, "Dependents_Yes": Dependents_Yes})
+    input_data = json.dumps({"SeniorCitizen":SeniorCitizen,"tenure": tenure, "gender_Male":gender_Male, "Dependents_Yes": Dependents_Yes})
     #url for churn classification api
     url = "http://localhost:8082/api"
     #url = "https://cmu95829-churn-predictor-17c35f3572b4.herokuapp.com/api"
-    
 
- 
     #post data to url
     results =  requests.post(url, input_data)
 
