@@ -21,8 +21,8 @@ def churnclassify():
     Dependents_Yes = request.form.get("Dependents_Yes")
     input_data = json.dumps({"SeniorCitizen":SeniorCitizen,"tenure": tenure, "gender_Male":gender_Male, "Dependents_Yes": Dependents_Yes})
     #url for churn classification api
-    url = "http://localhost:8082/api"
-    #url = "https://cmu95829-churn-predictor-17c35f3572b4.herokuapp.com/api"
+    #url = "http://localhost:8082/api"
+    url = "https://cmu95829-churn-predictor-17c35f3572b4.herokuapp.com/api"
 
     #post data to url
     results =  requests.post(url, input_data)
