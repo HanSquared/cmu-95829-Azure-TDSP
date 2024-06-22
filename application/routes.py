@@ -15,11 +15,11 @@ def index():
 def churnclassify():
 
     #extract form inputs
-    gender = request.form.get("gender")
     SeniorCitizen = request.form.get("SeniorCitizen")
-    Partner = request.form.get("Partner")
-    Dependents = request.form.get("Dependents")
     tenure = request.form.get("tenure")
+    gender_Male = request.form.get("gender_Male")
+    Dependents_Yes = request.form.get("Dependents_Yes")
+"""
     PhoneService = request.form.get("PhoneService")
     MultipleLines = request.form.get("MultipleLines")
     InternetService= request.form.get("InternetService")
@@ -34,16 +34,18 @@ def churnclassify():
     PaymentMethod = request.form.get("PaymentMethod")
     MonthlyCharges = request.form.get("MonthlyCharges")
     TotalCharges = request.form.get("TotalCharges")
-
+"""
 
     #extract data from json
+ """   
     input_data = json.dumps({"gender":gender, "SeniorCitizen":SeniorCitizen, "Partner": Partner, "Dependents": Dependents, "tenure": tenure, \
         "PhoneService": PhoneService, "MultipleLines": MultipleLines, "InternetService": InternetService, \
         "OnlineSecurity": OnlineSecurity, "OnlineBackup": OnlineBackup, \
         "DeviceProtection": DeviceProtection, "TechSupport": TechSupport, "StreamingTV": StreamingTV, \
         "StreamingMovies": StreamingMovies, "Contract": Contract, "PaperlessBilling": PaperlessBilling, \
         "PaymentMethod": PaymentMethod, "MonthlyCharges": MonthlyCharges, "TotalCharges": TotalCharges})
-
+"""
+ input_data = json.dumps({"SeniorCitizen":SeniorCitizen,"tenure": tenure, "gender_Male":gender_Male, "Dependents_Yes": Dependents_Yes})
     #url for churn classification api
     url = "http://localhost:8082/api"
     #url = "https://cmu95829-churn-predictor-17c35f3572b4.herokuapp.com/api"
@@ -54,9 +56,14 @@ def churnclassify():
     results =  requests.post(url, input_data)
 
     #send input values and prediction result to index.html for display
+ """   
     return render_template("index.html", gender = gender, SeniorCitizen = SeniorCitizen, Partner = Partner, Dependents = Dependents, tenure = tenure, \
         PhoneService = PhoneService, MultipleLines = MultipleLines, InternetService = InternetService, OnlineSecurity = OnlineSecurity, \
         OnlineBackup = OnlineBackup, DeviceProtection = DeviceProtection, TechSupport = TechSupport, \
         StreamingTV = StreamingTV, StreamingMovies = StreamingMovies, Contract = Contract, \
         PaperlessBilling = PaperlessBilling, PaymentMethod = PaymentMethod, MonthlyCharges = MonthlyCharges, TotalCharges = TotalCharges, \
+        results = results.content.decode('UTF-8'))
+ """  
+    return render_template("index.html", SeniorCitizen = SeniorCitizen,tenure = tenure, gender_Male = gender_Male, \
+        Dependents_Yes = Dependents_Yes, TotalCharges = TotalCharges, \
         results = results.content.decode('UTF-8'))
